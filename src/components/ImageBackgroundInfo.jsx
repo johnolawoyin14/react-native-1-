@@ -23,7 +23,7 @@ const ImageBackgroundInfo = ({EnableBackHandler,ImageLinkPortrait,type,id,Favour
                 <TouchableOpacity>
                   <GradientIcon
                     name={'heart'}
-                    color={COLORS.primaryLghtGreyHex}
+                    color={COLORS.primaryLightGreyHex}
                     size={FONTSIZE.size_16}
                   />
                 </TouchableOpacity>
