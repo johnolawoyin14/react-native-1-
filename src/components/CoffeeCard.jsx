@@ -6,7 +6,7 @@ import CustomIcons from './CustomIcons'
 import BGIcon from './BGIcon'
 import  Icon  from 'react-native-vector-icons/AntDesign'
 const CARD_WIDTH=Dimensions.get('window').width*0.32
-const CoffeeCard = ({name,imagelink_square,id,index,price,type,rosted,special_ingredient,average_rating,buttonPressHandler}) => {
+const CoffeeCard = ({name,imagelink_square,id,index,price,type,roasted,special_ingredient,average_rating,buttonPressHandler}) => {
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
@@ -32,7 +32,16 @@ const CoffeeCard = ({name,imagelink_square,id,index,price,type,rosted,special_in
         <Text style={styles.CardPriceCurrency}>
           $ <Text style={styles.CardPrice}>{price.price}</Text>
         </Text>
-        <TouchableOpacity onPress={()=>{}}>
+        <TouchableOpacity onPress={()=>{buttonPressHandler({
+          id,
+          index,
+          name,
+          roasted,
+          imagelink_square,
+          special_ingredient,
+          type,
+          prices:[{...price,quantity:1}],
+        });}}>
           <BGIcon
             color={COLORS.primaryWhiteHex}
             name={'add'}

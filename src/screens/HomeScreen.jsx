@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -50,10 +51,40 @@ const getCoffeeList = (cartegory, data) => {
 const HomeScreen = ({navigation}) => {
   const CoffeeList = useStore(state => state.CoffeeList);
   const BeansList = useStore(state => state.BeansList);
+   const addToCart = useStore(state => state.addToCart);
+   const calculateCartPrice = useStore(state => state.calculateCartPrice);
+
   const [cartegories, setCartegories] = useState([
     getCartegoriesFromData(CoffeeList),
   ]);
-  const [searchText, setSearchText] = useState('');
+  const CoffeeCardaddToCart = (
+    {id,
+    index,
+    name,
+    roasted,
+    imagelink_square,
+    special_ingredient,
+    type,
+    prices,}
+  ) => {
+    addToCart({
+      id,
+      index,
+      name,
+      roasted,
+      imagelink_square,
+      special_ingredient,
+      type,
+      prices
+    });
+    calculateCartPrice();
+    ToastAndroid.showWithGravity(
+      `${name} is added to cart`,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  };
+  const [searchText, setSearchText] = useState("");
   const [cartegoryIndex, setCartegoryIndex] = useState({
     index: 0,
     cartegory: cartegories[0][0],
@@ -219,7 +250,7 @@ const HomeScreen = ({navigation}) => {
                   rosted={item.roasted}
                   special_ingredient={item.special_ingredient}
                   average_rating={item.average_rating}
-                  buttonPressHandler={() => {}}
+                  buttonPressHandler={CoffeeCardaddToCart}
                 />
               </TouchableOpacity>
             );
@@ -256,7 +287,7 @@ const HomeScreen = ({navigation}) => {
                   rosted={item.roasted}
                   special_ingredient={item.special_ingredient}
                   average_rating={item.average_rating}
-                  buttonPressHandler={() => {}}
+                  buttonPressHandler={CoffeeCardaddToCart}
                 />
               </TouchableOpacity>
             );
