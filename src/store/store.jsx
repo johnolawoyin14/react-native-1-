@@ -1,9 +1,9 @@
-import {create} from 'zustand';
-import {produce} from 'immer';
-import {persist, createJSONStorage} from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import CoffeeData from '../data/CoffeeData';
-import BeansData from '../data/BeansData';
+import { create } from "zustand";
+import { produce } from "immer";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CoffeeData from "../data/CoffeeData";
+import BeansData from "../data/BeansData";
 
 export const useStore = create(
   persist(
@@ -16,7 +16,7 @@ export const useStore = create(
       OrderHistoryList: [],
       addToCart: (cartItem) =>
         set(
-          produce(state => {
+          produce((state) => {
             let found = false;
             for (let i = 0; i < state.CartList.length; i++) {
               if (state.CartList[i].id == cartItem.id) {
@@ -49,11 +49,11 @@ export const useStore = create(
             if (found == false) {
               state.CartList.push(cartItem);
             }
-          }),
+          })
         ),
       calculateCartPrice: () =>
         set(
-          produce(state => {
+          produce((state) => {
             let totalprice = 0;
             for (let i = 0; i < state.CartList.length; i++) {
               let tempprice = 0;
@@ -67,12 +67,12 @@ export const useStore = create(
               totalprice = totalprice + tempprice;
             }
             state.CartPrice = totalprice.toFixed(2).toString();
-          }),
+          })
         ),
       addToFavoriteList: (type, id) =>
         set(
-          produce(state => {
-            if (type == 'Coffee') {
+          produce((state) => {
+            if (type == "Coffee") {
               for (let i = 0; i < state.CoffeeList.length; i++) {
                 if (state.CoffeeList[i].id == id) {
                   if (state.CoffeeList[i].favourite == false) {
@@ -84,7 +84,7 @@ export const useStore = create(
                   break;
                 }
               }
-            } else if (type == 'Bean') {
+            } else if (type == "Bean") {
               for (let i = 0; i < state.BeanList.length; i++) {
                 if (state.BeanList[i].id == id) {
                   if (state.BeanList[i].favourite == false) {
@@ -97,12 +97,12 @@ export const useStore = create(
                 }
               }
             }
-          }),
+          })
         ),
       deleteFromFavoriteList: (type, id) =>
         set(
-          produce(state => {
-            if (type == 'Coffee') {
+          produce((state) => {
+            if (type == "Coffee") {
               for (let i = 0; i < state.CoffeeList.length; i++) {
                 if (state.CoffeeList[i].id == id) {
                   if (state.CoffeeList[i].favourite == true) {
@@ -113,7 +113,7 @@ export const useStore = create(
                   break;
                 }
               }
-            } else if (type == 'Beans') {
+            } else if (type == "Beans") {
               for (let i = 0; i < state.BeanList.length; i++) {
                 if (state.BeanList[i].id == id) {
                   if (state.BeanList[i].favourite == true) {
@@ -133,11 +133,11 @@ export const useStore = create(
               }
             }
             state.FavoritesList.splice(spliceIndex, 1);
-          }),
+          })
         ),
       incrementCartItemQuantity: (id, size) =>
         set(
-          produce(state => {
+          produce((state) => {
             for (let i = 0; i < state.CartList.length; i++) {
               if (state.CartList[i].id == id) {
                 for (let j = 0; j < state.CartList[i].prices.length; j++) {
@@ -148,11 +148,11 @@ export const useStore = create(
                 }
               }
             }
-          }),
+          })
         ),
       decrementCartItemQuantity: (id, size) =>
         set(
-          produce(state => {
+          produce((state) => {
             for (let i = 0; i < state.CartList.length; i++) {
               if (state.CartList[i].id == id) {
                 for (let j = 0; j < state.CartList[i].prices.length; j++) {
@@ -175,21 +175,21 @@ export const useStore = create(
                 }
               }
             }
-          }),
+          })
         ),
       addToOrderHistoryListFromCart: () =>
         set(
-          produce(state => {
+          produce((state) => {
             let temp = state.CartList.reduce(
               (accumulator, currentValue) =>
                 accumulator + parseFloat(currentValue.ItemPrice),
-              0,
+              0
             );
             if (state.OrderHistoryList.length > 0) {
               state.OrderHistoryList.unshift({
                 OrderDate:
                   new Date().toDateString() +
-                  ' ' +
+                  " " +
                   new Date().toLocaleTimeString(),
                 CartList: state.CartList,
                 CartListPrice: temp.toFixed(2).toString(),
@@ -198,19 +198,19 @@ export const useStore = create(
               state.OrderHistoryList.push({
                 OrderDate:
                   new Date().toDateString() +
-                  ' ' +
+                  " " +
                   new Date().toLocaleTimeString(),
                 CartList: state.CartList,
                 CartListPrice: temp.toFixed(2).toString(),
               });
             }
             state.CartList = [];
-          }),
+          })
         ),
     }),
     {
-      name: 'coffee-app',
+      name: "coffee-app",
       storage: createJSONStorage(() => AsyncStorage),
-    },
-  ),
+    }
+  )
 );
