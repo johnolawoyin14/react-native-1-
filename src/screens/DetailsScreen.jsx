@@ -84,7 +84,7 @@ favourite?deleteFromFavouriteList(type,id):addToFavouriteList(type,id)
                       ItemofIndex.type == 'Bean'
                         ? FONTSIZE.size_14
                         : FONTSIZE.size_16,
-                        color:data.size==price.size?COLORS.primaryOrangeHex:COLORS.primaryWhiteHex
+                        color:data.size==price.size?COLORS.primaryOrangeHex:COLORS.primaryWhiteHe
                     
                   },
                 ]}>
